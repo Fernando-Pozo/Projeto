@@ -1,4 +1,4 @@
-package com.estudo.loja.Repository
+package com.estudo.loja.repository
 
 import com.estudo.loja.model.Produto
 import io.awspring.cloud.dynamodb.DynamoDbTemplate

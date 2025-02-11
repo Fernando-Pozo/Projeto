@@ -1,6 +1,6 @@
 package com.estudo.loja.service
 
-import com.estudo.loja.Repository.lojaRepository
+import com.estudo.loja.repository.lojaRepository
 import com.estudo.loja.model.Produto
 import org.springframework.stereotype.Service
 
