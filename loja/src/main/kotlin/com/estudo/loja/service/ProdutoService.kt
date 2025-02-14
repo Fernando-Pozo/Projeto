@@ -1,22 +1,30 @@
 package com.estudo.loja.service
 
-import com.estudo.loja.repository.lojaRepository
+import com.estudo.loja.model.PrecoDto
 import com.estudo.loja.model.Produto
+import com.estudo.loja.repository.LojaRepository
 import org.springframework.stereotype.Service
 
 @Service
-class ProdutoService(private val repo: lojaRepository) {
+class ProdutoService(private val repo: LojaRepository) {
 
-    fun getProdutoById(id: String): Produto? {
+    fun getProductById(id: String): Produto? {
         return repo.findById(id)
     }
 
-    fun salvarProduto(produto: Produto) {
-        return repo.salvar(produto)
+    fun saveProduct(product: Produto) {
+        return repo.save(product)
     }
 
-    fun deleteProduto(produto: Produto) {
-        return repo.delete(produto)
+    fun updateProductPrice(id: String, precoDto: PrecoDto): Produto? {
+        val product = getProductById(id) ?: return null
+        product.valor = precoDto.valor
+        saveProduct(product)
+        return product
+    }
+
+    fun deleteProduct(id: String) {
+        return repo.delete(id)
     }
 
 }

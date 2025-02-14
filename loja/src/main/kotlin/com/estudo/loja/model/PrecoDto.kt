@@ -1,5 +1,5 @@
 package com.estudo.loja.model
 
-data class PrecoDto (
+class PrecoDto (
     val valor: Double
 )

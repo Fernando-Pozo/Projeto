@@ -8,7 +8,6 @@ import java.util.*
 @DynamoDbBean
 data class Produto(
 
-
     @get:DynamoDbPartitionKey
     @get:DynamoDbAttribute("ID")
     var id: String = UUID.randomUUID().toString(),

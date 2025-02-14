@@ -5,6 +5,7 @@ import com.estudo.loja.model.Produto
 import com.estudo.loja.service.ProdutoService
 import io.awspring.cloud.dynamodb.DynamoDbTemplate
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -15,57 +16,28 @@ class ProdutoController(
     private val produtoService: ProdutoService
 ) {
 
-//    @GetMapping("/{id}")
-//    fun getByIdQuery(@PathVariable("id") id: String): ResponseEntity<Produto> {
-//
-//        val query = QueryEnhancedRequest.builder()
-//            .queryConditional(QueryConditional.keyEqualTo(Key.builder().partitionValue(id).build()))
-//            .build()
-//
-//        val resultados = dynamoDbTemplate.query(query, Produto::class.java)
-//
-//        val produto = resultados.items().firstOrNull()
-//
-//        return produto?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound().build()
-//    }
-
     @GetMapping("/{id}")
     fun getById(@PathVariable("id") id: String): ResponseEntity<Produto> {
-
-        val produto = produtoService.getProdutoById(id)
-
-        return produto?.let { ResponseEntity.ok(produto) } ?: ResponseEntity.notFound().build()
+        val product = produtoService.getProductById(id)
+        return product?.let { ResponseEntity.ok(product) } ?: ResponseEntity.notFound().build()
     }
 
     @PostMapping
-    fun addProduto(@RequestBody produto: Produto): ResponseEntity<Produto> {
-        produtoService.salvarProduto(produto)
-        return ResponseEntity.ok(produto)
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addProduto(@RequestBody produto: Produto) {
+        produtoService.saveProduct(produto)
     }
 
-    @PutMapping("/{id}")
-    fun PutById(@PathVariable("id") id: String, @RequestBody precoDto: PrecoDto): ResponseEntity<Void>{
-        var produto = produtoService.getProdutoById(id)
-
-        if (produto == null){
-            return ResponseEntity.notFound().build()
-        }
-
-        produto.valor = precoDto.valor
-        produtoService.salvarProduto(produto)
-        return ResponseEntity.noContent().build()
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun patchById(@PathVariable("id") id: String, @RequestBody precoDto: PrecoDto){
+        produtoService.updateProductPrice(id, precoDto)
     }
 
     @DeleteMapping("/{id}")
-    fun DeleteById(@PathVariable("id") id: String): ResponseEntity<Void>{
-        var produto = produtoService.getProdutoById(id)
-
-        if (produto == null){
-            return ResponseEntity.notFound().build()
-        }
-
-        produtoService.deleteProduto(produto)
-        return ResponseEntity.noContent().build()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteById(@PathVariable("id") id: String){
+        produtoService.deleteProduct(id)
     }
 
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import software.amazon.awssdk.enhanced.dynamodb.Key
 
 @Repository
-class lojaRepository(private val dynamoDbTemplate: DynamoDbTemplate) {
+class LojaRepository(private val dynamoDbTemplate: DynamoDbTemplate) {
 
     fun findById(id: String): Produto? {
         return dynamoDbTemplate.load(
@@ -16,12 +16,13 @@ class lojaRepository(private val dynamoDbTemplate: DynamoDbTemplate) {
         )
     }
 
-    fun salvar(produto: Produto) {
-        dynamoDbTemplate.save(produto)
+    fun save(product: Produto) {
+        dynamoDbTemplate.save(product)
     }
 
-    fun delete(produto: Produto) {
-        dynamoDbTemplate.delete(produto)
+    fun delete(id: String) {
+        val product = Produto().apply { this.id = id }
+        dynamoDbTemplate.delete(product)
     }
 
 }
