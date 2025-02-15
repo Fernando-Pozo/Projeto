@@ -1,7 +1,7 @@
 package com.estudo.loja.service
 
 import com.estudo.loja.controller.request.PatchPrecoDto
-import com.estudo.loja.controller.request.PostProdutoRequest
+import com.estudo.loja.exception.NotFoundException
 import com.estudo.loja.model.Produto
 import com.estudo.loja.repository.LojaRepository
 import org.springframework.stereotype.Service
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class ProdutoService(private val repo: LojaRepository) {
 
     fun getProductById(id: String): Produto? {
-        return repo.findById(id)
+        return repo.findById(id) ?: throw NotFoundException("Product ${id} not found", "P-0001")
     }
 
     fun saveProduct(product: Produto) {
