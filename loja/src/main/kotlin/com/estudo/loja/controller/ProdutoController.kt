@@ -6,6 +6,7 @@ import com.estudo.loja.extension.toProdutoModel
 import com.estudo.loja.model.Produto
 import com.estudo.loja.service.ProdutoService
 import io.awspring.cloud.dynamodb.DynamoDbTemplate
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -26,13 +27,13 @@ class ProdutoController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addProduto(@RequestBody produto: PostProdutoRequest) {
+    fun addProduto(@RequestBody @Valid produto: PostProdutoRequest) {
         produtoService.saveProduct(produto.toProdutoModel())
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun patchById(@PathVariable("id") id: String, @RequestBody precoDto: PatchPrecoDto){
+    fun patchById(@PathVariable("id") id: String, @RequestBody @Valid precoDto: PatchPrecoDto){
         produtoService.updateProductPrice(id, precoDto)
     }
 
