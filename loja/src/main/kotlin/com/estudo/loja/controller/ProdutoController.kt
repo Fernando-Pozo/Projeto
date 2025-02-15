@@ -1,6 +1,8 @@
 package com.estudo.loja.controller
 
-import com.estudo.loja.model.PrecoDto
+import com.estudo.loja.controller.request.PatchPrecoDto
+import com.estudo.loja.controller.request.PostProdutoRequest
+import com.estudo.loja.extension.toProdutoModel
 import com.estudo.loja.model.Produto
 import com.estudo.loja.service.ProdutoService
 import io.awspring.cloud.dynamodb.DynamoDbTemplate
@@ -24,13 +26,13 @@ class ProdutoController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addProduto(@RequestBody produto: Produto) {
-        produtoService.saveProduct(produto)
+    fun addProduto(@RequestBody produto: PostProdutoRequest) {
+        produtoService.saveProduct(produto.toProdutoModel())
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun patchById(@PathVariable("id") id: String, @RequestBody precoDto: PrecoDto){
+    fun patchById(@PathVariable("id") id: String, @RequestBody precoDto: PatchPrecoDto){
         produtoService.updateProductPrice(id, precoDto)
     }
 
