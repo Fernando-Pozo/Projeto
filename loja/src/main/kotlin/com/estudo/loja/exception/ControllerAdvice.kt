@@ -15,7 +15,6 @@ class ControllerAdvice {
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(e: NotFoundException, request: WebRequest): ResponseEntity<ErrorResponse> {
         val erro =  ErrorResponse(
-            HttpStatus.NOT_FOUND.value(),
             e.message,
             e.errorCode,
             null
@@ -26,7 +25,6 @@ class ControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationException(e: MethodArgumentNotValidException, request: WebRequest): ResponseEntity<ErrorResponse> {
         val erro =  ErrorResponse(
-            HttpStatus.UNPROCESSABLE_ENTITY.value(),
             e.message,
             "p-0002",
             e.bindingResult.fieldErrors.map { FieldErrorResponse(it.defaultMessage ?: "invalid", it.field) }
