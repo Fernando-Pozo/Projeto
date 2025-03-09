@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service
 class PagamentoService(private val repository: PagamentoRepository){
 
     fun processar(request: Pagamento){
-        val tipoPagamento = request.tipo
-            ?: throw IllegalArgumentException("O tipo de pagamento não pode ser nulo.")
+        val tipoPagamento = request.tipo ?: throw IllegalArgumentException("O tipo de pagamento não pode ser nulo.")
         val strategy = PagamentoFactory.getPagamentoFactory(tipoPagamento)
         strategy.processarPagamento(request)
         repository.save(request)
